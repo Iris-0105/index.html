@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2026 寵物年夜飯：黃金大骨湯全席攻略</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@900&display=swap" rel="stylesheet">
+    <style>
+        @keyframes bounce-subtle {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+        }
+        
+        body {
+            font-family: 'Noto Sans TC', sans-serif;
+            font-weight: 900;
+            transition: all 0.5s ease;
+        }
+
+        .text-bold-black {
+            color: #000000;
+        }
+
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 100%;
+            height: 220px;
+            margin: 0 auto;
+        }
+
+        /* 狗狗：黃色骨頭可愛風 */
+        .dog-theme {
+            background-color: #FEF08A; /* 亮黃色 */
+            color: #000000;
+        }
+        .dog-btn-active {
+            background-color: #000000;
+            color: #FDE047;
+            transform: scale(1.1);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+
+        /* 貓咪：粉藍色魚骨頭可愛風 */
+        .cat-theme {
+            background-color: #FCE7F3; /* 柔和粉 */
+            background-image: radial-gradient(circle at top right, #DBEAFE, transparent), radial-gradient(circle at bottom left, #FCE7F3, transparent);
+            color: #000000;
+        }
+        .cat-btn-active {
+            background-color: #000000;
+            color: #F9A8D4;
+            transform: scale(1.1);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+
+        .recipe-card {
+            background: white;
+            border-radius: 40px;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border: 6px solid #000000;
+            cursor: pointer;
+        }
+        .recipe-card:hover {
+            transform: rotate(-2deg) scale(1.02);
+            box-shadow: 12px 12px 0px #000000;
+        }
+
+        .cute-btn {
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border: 4px solid #000000;
+        }
+        .cute-btn:active {
+            transform: scale(0.9);
+        }
+
+        .custom-scrollbar::-webkit-scrollbar { width: 10px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #000000; border-radius: 20px; }
+
+        .bubble {
+            animation: bounce-subtle 3s infinite ease-in-out;
+        }
+    </style>
+</head>
+<body class="dog-theme" id="app-body">
+
+    <!-- Header -->
+    <header class="bg-white border-b-8 border-black sticky top-0 z-50 py-4 px-6">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
+            <div class="flex items-center gap-4">
+                <div class="w-16 h-16 bg-black rounded-full flex items-center justify-center text-white text-3xl shadow-lg bubble" id="header-icon">🦴</div>
+                <div>
+                    <h1 class="text-3xl font-black tracking-tighter uppercase leading-none text-black" id="app-title">汪汪大順：年菜全書</h1>
+                    <p class="text-sm font-black mt-1 text-black bg-yellow-300 px-2 inline-block rounded" id="app-subtitle">針對 3 汪 & 7 喵大家庭</p>
+                </div>
+            </div>
+            
+            <div class="flex gap-4 p-2 bg-gray-200 rounded-[30px] border-4 border-black">
+                <button onclick="setTheme('dog')" id="btn-dog" class="cute-btn dog-btn-active px-8 py-3 rounded-full font-black text-lg flex items-center gap-2">
+                    🐶 汪汪區
+                </button>
+                <button onclick="setTheme('cat')" id="btn-cat" class="cute-btn px-8 py-3 rounded-full font-black text-lg flex items-center gap-2 text-black hover:bg-white transition-all">
+                    🐱 喵喵區
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto px-6 py-12 space-y-16">
+
+        <!-- Introduction -->
+        <section class="bg-white rounded-[50px] p-10 shadow-[15px_15px_0px_#000000] border-8 border-black">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                <div class="space-y-6">
+                    <h2 class="text-4xl font-black leading-tight text-black">🏮 2026 汪喵團圓宴<br><span class="text-6xl" id="intro-emoji">🦴🦴🦴</span></h2>
+                    <p class="text-xl font-black leading-relaxed text-black">
+                        歡迎來到主廚的秘密廚房！這是一份為了 10 隻毛小孩打造的夢幻清單。我們拋棄了生冷的水，全面改用精熬 <span class="bg-yellow-200 px-2">「黃金大骨蔬菜湯」</span> 作為靈魂底蘊。
+                    </p>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="bg-blue-200 p-4 rounded-3xl border-4 border-black text-center">
+                            <span class="text-3xl font-black block">14 道</span>
+                            <span class="text-xs font-black uppercase">頂級料理</span>
+                        </div>
+                        <div class="bg-pink-200 p-4 rounded-3xl border-4 border-black text-center">
+                            <span class="text-3xl font-black block">10 隻</span>
+                            <span class="text-xs font-black uppercase">受寵毛孩</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-gray-100 rounded-[40px] p-6 border-4 border-black shadow-inner">
+                    <h3 class="text-center font-black mb-4">📊 總採購重量分佈 (克)</h3>
+                    <div class="chart-container" style="height: 280px;">
+                        <canvas id="totalShoppingChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Base Soup Detail -->
+        <section class="bg-white rounded-[50px] p-10 border-8 border-black shadow-[15px_15px_0px_#000000]">
+            <div class="flex flex-col md:flex-row items-center gap-8 mb-10">
+                <div class="w-24 h-24 bg-yellow-400 rounded-[30px] border-4 border-black flex items-center justify-center text-5xl bubble">🥣</div>
+                <div>
+                    <h3 class="text-4xl font-black text-black">靈魂基底：黃金大骨蔬菜濃縮湯</h3>
+                    <p class="text-lg font-black text-gray-500 italic mt-1">「所有的美味，都源自這鍋耗時 3 小時的精華。」</p>
+                </div>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
+                <div class="bg-orange-50 p-8 rounded-[40px] border-4 border-black">
+                    <h4 class="text-2xl font-black mb-6 flex items-center gap-2">🛒 準備食材</h4>
+                    <ul class="space-y-4 text-lg font-black text-black">
+                        <li>🦴 豬或牛大骨：1.5 kg</li>
+                        <li>🥕 紅蘿蔔：2 根 (滾刀切)</li>
+                        <li>🥬 高麗菜：1/4 顆 (手撕)</li>
+                        <li>🍎 蘋果：1 顆 (增加層次)</li>
+                        <li>💧 純淨清水：4000 ml</li>
+                    </ul>
+                </div>
+                <div class="md:col-span-2 space-y-6">
+                    <h4 class="text-2xl font-black flex items-center gap-2 px-4">👨‍🍳 熬製工法 (極詳細)</h4>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                        <div class="bg-white p-6 rounded-3xl border-4 border-black">
+                            <span class="bg-black text-white px-3 py-1 rounded-full text-xs font-black mb-3 inline-block">STEP 01</span>
+                            <p class="font-black leading-relaxed">**去腥與雜質**：大骨冷水下鍋，加入兩片薑片，煮滾後續煮 8 分鐘，直到浮沫完全出盡。撈出後用「冷水」強力沖洗大骨孔隙中的雜質。</p>
+                        </div>
+                        <div class="bg-white p-6 rounded-3xl border-4 border-black">
+                            <span class="bg-black text-white px-3 py-1 rounded-full text-xs font-black mb-3 inline-block">STEP 02</span>
+                            <p class="font-black leading-relaxed">**慢火萃取**：乾淨的大骨與蔬菜入鍋。大火煮滾 10 分鐘讓湯色變白，隨即轉成「蝦眼小火」燉煮 2.5 小時，確保骨髓營養完全釋放。</p>
+                        </div>
+                        <div class="bg-white p-6 rounded-3xl border-4 border-black">
+                            <span class="bg-black text-white px-3 py-1 rounded-full text-xs font-black mb-3 inline-block">STEP 03</span>
+                            <p class="font-black leading-relaxed">**黃金去油法**：這是最重要的步驟！湯放涼後放入冰箱 2 小時。用湯匙輕輕敲開表層固化的「純白油脂層」並完全丟棄。毛孩不能攝取過多油脂。</p>
+                        </div>
+                        <div class="bg-white p-6 rounded-3xl border-4 border-black">
+                            <span class="bg-black text-white px-3 py-1 rounded-full text-xs font-black mb-3 inline-block">STEP 04</span>
+                            <p class="font-black leading-relaxed">**二次過濾**：使用細濾網將所有的菜渣與骨頭碎屑濾除。最後得到的湯頭清澈、透明、甘甜，充滿膠原蛋白。</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Recipe Grid -->
+        <section class="space-y-10">
+            <div class="flex items-center gap-4">
+                <span class="text-5xl" id="section-emoji">🐾</span>
+                <h3 class="text-4xl font-black text-black" id="section-title">汪汪大順：詳細食譜清單</h3>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10" id="recipe-container">
+                <!-- Recipes injected via JS -->
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Modal -->
+    <div id="recipe-modal" class="fixed inset-0 bg-black/80 z-[100] hidden items-center justify-center p-6 backdrop-blur-md">
+        <div class="bg-white rounded-[60px] max-w-2xl w-full max-h-[90vh] overflow-hidden flex flex-col border-[10px] border-black shadow-2xl scale-95" id="modal-box">
+            <div class="p-10 border-b-8 border-black flex justify-between items-center" id="modal-header">
+                <div class="flex items-center gap-4">
+                    <span class="text-5xl" id="modal-emoji">🦴</span>
+                    <h3 id="modal-title" class="text-3xl font-black uppercase text-black leading-none">Recipe Title</h3>
+                </div>
+                <button onclick="closeModal()" class="w-12 h-12 bg-black text-white rounded-full flex items-center justify-center text-3xl font-black hover:scale-110 transition-transform">&times;</button>
+            </div>
+            <div class="p-10 overflow-y-auto space-y-10 custom-scrollbar">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-8">
+                    <div class="bg-gray-100 p-6 rounded-[40px] border-4 border-black">
+                        <h5 class="text-black font-black mb-4 flex items-center gap-2">🐾 營養比例分析</h5>
+                        <div class="chart-container" style="height: 180px;">
+                            <canvas id="modalChart"></canvas>
+                        </div>
+                    </div>
+                    <div class="space-y-4">
+                        <h5 class="text-black font-black flex items-center gap-2 border-b-4 border-yellow-400 inline-block text-xl">🛒 食材清單</h5>
+                        <p id="modal-ingredients" class="text-black font-black text-lg leading-relaxed"></p>
+                    </div>
+                </div>
+
+                <div class="space-y-6">
+                    <h5 class="text-black font-black text-2xl flex items-center gap-2">👨‍🍳 主廚捏製細節</h5>
+                    <div id="modal-steps" class="space-y-4">
+                        <!-- Steps injected here -->
+                    </div>
+                </div>
+
+                <div class="bg-black text-white p-8 rounded-[40px] shadow-lg">
+                    <h5 class="text-yellow-400 font-black mb-2 flex items-center gap-2 text-xl">💡 汪喵主廚特別提醒</h5>
+                    <p id="modal-cook" class="text-white font-black leading-relaxed"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-black text-white py-20 px-6 mt-24 text-center">
+        <div class="max-w-4xl mx-auto space-y-8">
+            <div class="flex justify-center gap-8 text-6xl">
+                <span>🦴</span><span>🐟</span><span>🐾</span>
+            </div>
+            <p class="text-xl font-black tracking-widest">2026 汪喵團圓年夜飯互動手冊 | 極致細節版</p>
+            <p class="text-sm font-bold opacity-50">
+                本系統專為大家庭設計。所有料理務必待完全放涼後分食。魚類入菜請務必確保剔除細刺。<br>
+                大骨湯必須確實去油，守護毛孩心血管。
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        const dogRecipes = [
+            { id: 'd1', name: '翡翠大骨珍珠丸', ingredients: '雞胸肉泥 400g、熟白飯 1.5 碗、紅蘿蔔末 50g、大骨湯精華 3 匙', steps: ['1. **肉泥打水**：肉泥加入 3 匙大骨湯，用手沿著同方向「畫圈攪拌」，直到肉泥吸收湯汁並產生黏性。', '2. **白飯預處理**：白飯煮熟放涼，表面灑一點點大骨湯撥鬆，保持彈性不軟爛。', '3. **捏製塑形**：肉泥捏成桌球大小，雙手來回「摔打」數次增加 Q 度，放入飯盤中用力壓緊。', '4. **大火鎖味**：蒸鍋水開後放入，大火蒸 15 分鐘，關火再悶 3 分鐘，珍珠會更亮。'], cook: '狗狗的珍珠丸重點在於「裹滿」米飯，白飯含有醣類能給予狗狗年節所需的高熱量活動力。', ratio: [50, 40, 10], color: '#FACC15' },
+            { id: 'd2', name: '暖心骨湯蔬菜羹', ingredients: '大骨湯 800ml、雞里肌 200g、碎花椰菜 1 朵、南瓜泥 100g', steps: ['1. **丁狀處理**：雞里肌橫切再縱切，變成 0.8cm 小丁。', '2. **天然勾芡**：將大骨湯煮沸，放入南瓜泥「徹底攪散」，直到湯頭變成漂亮的橘金色。', '3. **快速燉煮**：放入雞丁與碎花椰菜，小火煮 10 分鐘，直到羹湯呈現微濃稠狀。'], cook: '南瓜富含維生素，配合大骨湯能幫助狗狗潤滑腸胃，這道菜是全席的亮點。', ratio: [40, 20, 40], color: '#FACC15' },
+            { id: 'd3', name: '圓滿大骨豬肉丸', ingredients: '全瘦豬絞肉 400g、大骨湯 2 匙、紅蘿蔔細碎 50g', steps: ['1. **攪拌出筋**：豬肉必須反覆攪拌至「變淡粉色」且出現絲狀物，這是彈牙的關鍵。', '2. **紅泥混和**：加入極細的紅蘿蔔碎，增添天然的蔬菜甜。', '3. **紮實捏球**：虎口擠出圓球，大小統一，確保受熱均勻。'], cook: '選購時記得跟攤販強調要「全瘦肉」，豬油過多對寵物心臟負擔重。', ratio: [85, 15, 0], color: '#FACC15' },
+            { id: 'd4', name: '黃金牛肉南瓜糕', ingredients: '牛絞肉 400g、南瓜泥 300g、大骨湯少許', steps: ['1. **牛肉熟化**：牛絞肉加入一勺骨湯快炒，逼出鮮味後瀝乾。', '2. **分層堆疊**：底部先鋪一層厚實的南瓜泥，再鋪上一層牛肉泥。', '3. **壓實倒扣**：用重物壓平，待冷卻定型後倒扣，切成可愛的小方塊。'], cook: '這是一道大分量的能量餐點，適合家中活動力旺盛的汪汪。', ratio: [55, 45, 0], color: '#FACC15' },
+            { id: 'd5', name: '年年有魚白菜捲', ingredients: '鯛魚菲力 2 片、大白菜葉 6 片、大骨湯 1 匙', steps: ['1. **白菜燙軟**：白菜去厚梗，放入骨湯汆燙 2 分鐘撈起。', '2. **包裹魚片**：將去刺魚塊放置中心，緊緊包裹。', '3. **清蒸定型**：蒸 12 分鐘，白菜會吸飽大骨湯與魚肉的甜味。'], cook: '鯛魚油脂少蛋白質高，是狗狗最安全的魚類選擇。', ratio: [60, 40, 0], color: '#FACC15' },
+            { id: 'd6', name: '步步高升薯泥塔', ingredients: '馬鈴薯 2 顆、大骨湯 2 匙、雞肉丁 100g', steps: ['1. **細膩薯泥**：馬鈴薯蒸爛後壓泥，過篩後拌入骨湯，像絲絨般柔滑。', '2. **造型搭建**：利用模具或勺子堆成三層高塔。', '3. **撒丁裝飾**：將雞丁煮熟均勻撒在塔的四周。'], cook: '馬鈴薯泥不要放牛奶，改用大骨湯能引誘狗狗胃口大開。', ratio: [20, 80, 0], color: '#FACC15' },
+            { id: 'd7', name: '鴻運番茄骨湯蛋', ingredients: '番茄 2 顆、雞蛋 3 顆、大骨湯 50ml', steps: ['1. **番茄去皮**：番茄底部劃十字，骨湯中燙熟去皮。', '2. **熬煮番茄糊**：切碎番茄與骨湯熬成糊狀。', '3. **滑蛋收尾**：淋上蛋液快速拌動 15 秒即關火，口感最嫩。'], cook: '茄紅素煮過後更容易被吸收，對狗狗眼睛很好。', ratio: [40, 60, 0], color: '#FACC15' }
+        ];
+
+        const catRecipes = [
+            { id: 'c1', name: '珍珠小魚丸 (貓咪版)', ingredients: '雞胸肉泥 400g、熟米粒 15 粒、大骨湯 1 匙', steps: ['1. **綿密肉泥**：肉泥必須打到像「幕斯」一樣細緻。', '2. **點綴珍珠**：捏成葡萄大小，上面只點綴 2 粒米。', '3. **短時清蒸**：水滾蒸 8 分鐘，保留肉質中的水分。'], cook: '貓咪不需要太多碳水，珍珠只是過年增添儀式感。', ratio: [95, 5, 0], color: '#FBCFE8' },
+            { id: 'c2', name: '鮮魚骨湯補水盅', ingredients: '大骨湯 1000ml、鮭魚丁 200g', steps: ['1. **極小鮭魚丁**：鮭魚切成比飼料還小的丁。', '2. **沖泡精華**：大骨湯煮到大滾，沖入鮭魚盤中。', '3. **靜置悶熟**：蓋上盤子悶 5 分鐘，鮭魚會半熟軟嫩，湯頭極香。'], cook: '這道菜水要放足，是引導貓咪喝水的終極秘密武器。', ratio: [100, 0, 0], color: '#FBCFE8' },
+            { id: 'c3', name: '招財鮮蝦大骨塔', ingredients: '雞胸肉泥 300g、大鮮蝦 10 隻、大骨湯少許', steps: ['1. **肉餅底座**：肉泥拌入骨湯壓成餅狀蒸熟。', '2. **鮮蝦去腸**：剝殼、去泥腸，单独燙熟。', '3. **立體擺盤**：蝦子站在肉餅中央，吉祥討喜。'], cook: '蝦頭油脂多請移除，只留純淨蝦肉。', ratio: [100, 0, 0], color: '#FBCFE8' },
+            { id: 'c4', name: '雙福魚片盅', ingredients: '鮭魚 150g、鯛魚 150g、大骨湯 50ml', steps: ['1. **雙魚交錯**：白魚與紅魚切塊交替放入碗中。', '2. **灌入骨湯**：湯頭淹過魚肉。', '3. **密封清蒸**：蒸 10 分鐘，肉質不乾柴。'], cook: '密封能將鮮味留在碗內，貓咪連湯都不會放過。', ratio: [100, 0, 0], color: '#FBCFE8' },
+            { id: 'c5', name: '金元寶蛋餃', ingredients: '雞蛋 3 顆、雞肉末 100g', steps: ['1. **薄如紙皮**：蛋液過篩三次，煎出透光圓皮。', '2. **包入肉末**：快速摺疊按壓封口。', '3. **二次回蒸**：蒸 3 分鐘確保核心熟透。'], cook: '蛋皮的香氣對貓咪有很大吸引力。', ratio: [100, 0, 0], color: '#FBCFE8' },
+            { id: 'c6', name: '圓滿牛肉蛋黃球', ingredients: '牛粉末肉 300g、熟蛋黃 3 顆、大骨湯 1 匙', steps: ['1. **牛肉熟磨**：牛肉燙熟後切成末。', '2. **蛋黃混和**：熟蛋黃壓碎，加入牛肉末與骨湯。', '3. **小丸捏製**：捏成 0.5cm 的超小球。'], cook: '蛋黃是貓咪的超級食物，配合牛肉能補鐵補體力。', ratio: [100, 0, 0], color: '#FBCFE8' },
+            { id: 'c7', name: '吉利雞魚碎', ingredients: '雞里肌 200g、鯛魚片 100g、大骨湯少許', steps: ['1. **混合生剁**：兩種肉混合剁爛。', '2. **平鋪蒸煮**：盤子塗抹大骨湯，鋪平肉糜。', '3. **快速出爐**：蒸 6 分鐘，維持最佳鮮度。'], cook: '這是一道貓咪絕對不會拒絕的純肉全席。', ratio: [100, 0, 0], color: '#FBCFE8' }
+        ];
+
+        let currentTheme = 'dog';
+        let modalChartInstance = null;
+
+        function initGlobalChart() {
+            const ctx = document.getElementById('totalShoppingChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['雞肉/里肌', '牛/豬肉', '魚類海鮮', '蔬菜澱粉', '雞蛋'],
+                    datasets: [{
+                        data: [2500, 1400, 800, 1200, 600],
+                        backgroundColor: '#000000',
+                        borderRadius: 15
+                    }]
+                },
+                options: {
+                    indexAxis: 'y',
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: {
+                        x: { display: false },
+                        y: { 
+                            grid: { display: false },
+                            ticks: { font: { weight: 'bold', size: 14 }, color: '#000000' }
+                        }
+                    }
+                }
+            });
+        }
+
+        function setTheme(theme) {
+            currentTheme = theme;
+            const body = document.getElementById('app-body');
+            const hIcon = document.getElementById('header-icon');
+            const appTitle = document.getElementById('app-title');
+            const introEmoji = document.getElementById('intro-emoji');
+            const sEmoji = document.getElementById('section-emoji');
+            const sTitle = document.getElementById('section-title');
+            
+            const bDog = document.getElementById('btn-dog');
+            const bCat = document.getElementById('btn-cat');
+
+            if (theme === 'dog') {
+                body.className = 'dog-theme';
+                hIcon.innerText = '🦴';
+                appTitle.innerText = '汪汪大順：年菜全書';
+                introEmoji.innerText = '🦴🦴🦴';
+                sEmoji.innerText = '🐶';
+                sTitle.innerText = '汪汪大順：詳細食譜清單';
+                bDog.className = 'cute-btn dog-btn-active px-8 py-3 rounded-full font-black text-lg flex items-center gap-2';
+                bCat.className = 'cute-btn px-8 py-3 rounded-full font-black text-lg flex items-center gap-2 text-black hover:bg-white';
+            } else {
+                body.className = 'cat-theme';
+                hIcon.innerText = '🐟';
+                appTitle.innerText = '喵到成功：魚骨全書';
+                introEmoji.innerText = '🐟🐟🐟';
+                sEmoji.innerText = '🐱';
+                sTitle.innerText = '喵到成功：詳細食譜清單';
+                bCat.className = 'cute-btn cat-btn-active px-8 py-3 rounded-full font-black text-lg flex items-center gap-2';
+                bDog.className = 'cute-btn px-8 py-3 rounded-full font-black text-lg flex items-center gap-2 text-black hover:bg-white';
+            }
+            renderRecipes();
+        }
+
+        function renderRecipes() {
+            const container = document.getElementById('recipe-container');
+            container.innerHTML = '';
+            const list = currentTheme === 'dog' ? dogRecipes : catRecipes;
+
+            list.forEach(r => {
+                const card = document.createElement('div');
+                card.className = 'recipe-card p-8 flex flex-col';
+                card.onclick = () => openModal(r);
+                
+                const themeIcon = currentTheme === 'dog' ? '🦴' : '🐟';
+                
+                card.innerHTML = `
+                    <div class="flex justify-between items-center mb-6">
+                        <h4 class="font-black text-2xl text-black">${r.name}</h4>
+                        <span class="text-3xl">${themeIcon}</span>
+                    </div>
+                    <div class="chart-container mb-6">
+                        <canvas id="chart-${r.id}"></canvas>
+                    </div>
+                    <p class="text-sm font-black text-gray-400 mt-auto">點擊詳閱捏製技巧與火候 ➔</p>
+                `;
+                container.appendChild(card);
+
+                const ctx = document.getElementById(`chart-${r.id}`).getContext('2d');
+                new Chart(ctx, {
+                    type: 'doughnut',
+                    data: {
+                        labels: ['肉類', '澱粉', '蔬菜'],
+                        datasets: [{
+                            data: r.ratio,
+                            backgroundColor: currentTheme === 'dog' 
+                                ? ['#000000', '#FDE047', '#4ADE80'] 
+                                : ['#F9A8D4', '#BFDBFE', '#D1FAE5'],
+                            borderWidth: 5,
+                            borderColor: '#ffffff'
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: { legend: { display: false } },
+                        cutout: '70%'
+                    }
+                });
+            });
+        }
+
+        function openModal(r) {
+            document.getElementById('modal-title').innerText = r.name;
+            document.getElementById('modal-ingredients').innerText = r.ingredients;
+            document.getElementById('modal-cook').innerText = r.cook;
+            document.getElementById('modal-emoji').innerText = currentTheme === 'dog' ? '🦴' : '🐟';
+            document.getElementById('modal-header').style.backgroundColor = currentTheme === 'dog' ? '#FDE047' : '#FBCFE8';
+            document.getElementById('modal-box').style.backgroundColor = '#FFFFFF';
+
+            const stepContainer = document.getElementById('modal-steps');
+            stepContainer.innerHTML = '';
+            r.steps.forEach(step => {
+                const p = document.createElement('div');
+                p.className = 'bg-gray-100 p-6 rounded-[30px] border-4 border-black font-black text-lg';
+                p.innerHTML = step;
+                stepContainer.appendChild(p);
+            });
+
+            const modal = document.getElementById('recipe-modal');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            
+            if (modalChartInstance) modalChartInstance.destroy();
+            const ctx = document.getElementById('modalChart').getContext('2d');
+            modalChartInstance = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['肉類', '澱粉', '蔬菜'],
+                    datasets: [{
+                        data: r.ratio,
+                        backgroundColor: currentTheme === 'dog' 
+                            ? ['#000000', '#FDE047', '#4ADE80'] 
+                            : ['#F9A8D4', '#BFDBFE', '#D1FAE5'],
+                        borderWidth: 6,
+                        borderColor: '#ffffff'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    cutout: '65%'
+                }
+            });
+        }
+
+        function closeModal() {
+            document.getElementById('recipe-modal').classList.add('hidden');
+            document.getElementById('recipe-modal').classList.remove('flex');
+        }
+
+        window.onload = () => {
+            initGlobalChart();
+            renderRecipes();
+        };
+    </script>
+</body>
+</html>
